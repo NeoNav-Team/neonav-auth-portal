@@ -16,6 +16,6 @@ CERT_PATH="local.neonav.net"
 LOCAL_DOMAIN="local.neonav.net"
 ```
 
-Lastly, run `npm run dev` which will run a development server using these certificates.
+Lastly, run `npm run dev` which will run a development server using these certificates at `https://local.neonav.net:3000`
 
 
