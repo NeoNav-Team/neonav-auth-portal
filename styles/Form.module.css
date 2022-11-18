@@ -1,6 +1,7 @@
 .form {
     background: transparent;
     width: 100%;
+    min-width: 400px;
     margin: 0 auto;
     padding: 0;
     overflow: hidden;
@@ -9,7 +10,7 @@
     filter: drop-shadow(0px 0px 6px var(--form-color-0));
 }
 .content {
-    padding: 10px 16px;
+    padding: 0 16px 10px;
     filter: none;
     min-height: 30vh;
 }
@@ -25,26 +26,55 @@
 
 .title {
     height: 40px;
-    margin: 0 6px 8px;
-    padding-top: 8px;
+    margin: 0 6px;
     filter: drop-shadow(0px 0px 15px #fff);
     border-bottom: 1px solid var(--form-color-1);
 }
 .title h2 {
-    padding: 0;
     margin: 0;
-    margin-top: -6px;
+    padding:0;
     color: #fff;
-    text-indent: 30px;
-    font-size: 30px;
-    line-height: 32px;
+    text-indent: 20px;
+    font-size: 28px;
+    line-height: 38px;
+    letter-spacing: 0.25em;
 }
 
-/* phones */
-@media screen and (max-width: 1024px) {
-    .title h2 {
-      text-indent: 20px;
-      font-size: 20px;
-      line-height: 32px;
-    }
+.inputs {
+    padding: 20px 10px 40px;
 }
+
+.inputContainer {
+    margin: 20px;
+    padding: 5px 16px;
+    border-radius: 10px 0px;
+    line-height: 4vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    filter: drop-shadow(rgb(122, 4, 235) 0px 0px 8px);
+    --aug-tr: 5px;
+    --aug-b-extend1: 20%;
+    --aug-border-all: 1px;
+    --aug-border-bg: radial-gradient(var(--form-color-0),  rgb(122, 4, 235);) 100% 100% / 100% 100%;
+    --aug-inlay-all: 4px;
+    --aug-inlay-bg: radial-gradient(ellipse at top, var(--form-color-1), transparent)  50% 50% / 100% 100%;
+    --aug-inlay-opacity: 0.25;
+}
+
+.submitContainer {
+    margin: 20px 10vw;
+    border-radius: 10px 0px;
+    line-height: 4vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    filter: drop-shadow(rgb(122, 4, 235) 0px 0px 8px);
+    --aug-tr: 5px;
+    --aug-tl: 5px;
+    --aug-bl: 5px;
+    --aug-br: 5px;
+    --aug-b-extend1: 10%;
+    --aug-border-all: 1px;
+    --aug-border-bg: radial-gradient(var(--form-color-0),  var(--form-color-1)) 100% 100% / 100% 100%;
+    --aug-inlay-all: 4px;
+    --aug-inlay-bg: radial-gradient(ellipse at top, var(--form-color-1), transparent)  50% 50% / 100% 100%;
+    --aug-inlay-opacity: 0.25;
+}
+
