@@ -1,7 +1,12 @@
 import PageContainer from '../components/pageContainer'
+import FormContainer from '../components/formContainer'
 
 export default function Login() {
   return (
-    <PageContainer>Login Goes Here</PageContainer>
+    <PageContainer>
+        <FormContainer title="Login">
+            login goes here
+        </FormContainer>
+    </PageContainer>
   )
 }
