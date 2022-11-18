@@ -7,12 +7,13 @@ const dotenv = require('dotenv').config();
 
 const port = 3000;
 const dev = process.env.NODE_ENV !== "production";
-const app = next({ dev });
-const handle = app.getRequestHandler();
 const certPath = process.env.CERT_PATH || 'localhost';
 const localDomain = process.env.LOCAL_DOMAIN || 'localhost';
+const hostname = localDomain;
 const cert = path.join(process.cwd(), certPath +'.cer');
 const key = path.join(process.cwd(), certPath + '.key');
+const app = next({ dev, hostname, port});
+const handle = app.getRequestHandler();
 
 const httpsOptions = {
     key: fs.readFileSync(key, 'utf8'),

@@ -9,10 +9,11 @@ interface PageContainerProps {
 
 export default function PageContainer(props:PageContainerProps):JSX.Element {
   const { children, title } = props;
+  const mixedTitle = `N E O N A V ${title && ` [[${title}]]`}`;
   return (
     <div className={styles.container}>
       <Head>
-        <title>N E O N A V{title && ` [[${title}]]`}</title>
+        <title>{mixedTitle}</title>
         <meta name="description" content="NeoNav Authentication Portal" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
