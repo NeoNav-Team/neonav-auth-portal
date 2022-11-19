@@ -1,3 +1,10 @@
+export const apiUrl = {
+    protocol: 'https',
+    hostname: 'api.neonav.net',
+    port: ''
+};
+
+
 export const authApiEnpoints = {
     login: {
         method: "post",

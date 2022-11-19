@@ -21,7 +21,7 @@ export default function PageContainer(props:PageContainerProps):JSX.Element {
       <main className={styles.main}>
         <div className={styles.grid}>
           <div className={styles.logoContainer}>
-            <Image src="/neonav.svg" alt="NeoNav Logo" width={200} height={200} priority />
+            <Image src="/neonav.svg" alt="NeoNav Logo" width={250} height={250} priority />
           </div>
         </div>
         <div className={styles.grid}>

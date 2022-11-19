@@ -1,4 +1,5 @@
-import styles from '../styles/Form.module.css'
+import styles from '../styles/Form.module.css';
+import React, { useState } from 'react';
 
 interface PageContainerProps {
   title?: string;
@@ -7,6 +8,8 @@ interface PageContainerProps {
 
 export default function FormContainer(props:PageContainerProps):JSX.Element {
   const { children, title } = props;
+  const [payload, setPayload] = useState({});
+
   return (
     <div className={styles.form}>
         <div
