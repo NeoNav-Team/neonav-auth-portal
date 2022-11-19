@@ -1,17 +1,16 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import localStorage from './utils/localStorage';
 
-const storedJwt = localStorage('get', 'jwt');
-const hasJwt = storedJwt.length >= 3;
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
+    const hasToken = request.cookies.has('accessToken');
     const url = request.nextUrl.clone();
-    if(!hasJwt && url.pathname !== '/login') {
-        return NextResponse.redirect(new URL('/login', request.url))
+    if(!hasToken && url.pathname !== '/login') {
+      return NextResponse.redirect(new URL('/login', request.url))
+    } else if (hasToken && (url.pathname === '/login' || url.pathname === '/')) {
+      return NextResponse.redirect(new URL('/logout', request.url))
     }
-
 }
 
 export const config = {

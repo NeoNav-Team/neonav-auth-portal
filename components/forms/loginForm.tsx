@@ -7,6 +7,10 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
 import executeApi from '../../utils/executeApi';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
+import ChipBox from '../chipBox';
 
 
 interface LoginFormProps {
@@ -18,12 +22,34 @@ interface Payload {
   password?: string;
 }
 
+interface LoginResponse {
+  data:LoginResponseData;
+}
+
+interface LoginResponseData {
+  accessToken: string; 
+  id: string; 
+  userid: string;
+}
+
 export default function LoginForm(props:LoginFormProps):JSX.Element {
   const { children } = props;
   const [ payload, setPayload ] = useState({});
   const [ errors, setErrors ] = useState({} as Payload);
   const [ submitError, setSubmitError ] = useState('');
   const [ loading, setLoading ] = useState(false);
+  const router = useRouter();
+
+  const getQueryChips = () => {
+    let queryChips = [];
+    for (const [key, value] of Object.entries(router.query)) {
+      const queryChip:object = {'name': key, 'value': value, 'id': queryChips.length};
+      queryChips.push(queryChip)
+    }
+    return queryChips;
+  }
+
+  const chips: any[] = getQueryChips();
 
   let payloadSchema = yup.object().shape({
     username: yup.mixed().required("This is Required").test(
@@ -62,10 +88,16 @@ export default function LoginForm(props:LoginFormProps):JSX.Element {
     }
   }
 
-  const onSuccess = (data:object) => {
-    console.log('success!', data);
+  const onSuccess = (response:LoginResponse) => {
     setLoading(false);
     setSubmitError('');
+    const accessToken = response.data.accessToken;
+    Cookies.set('accessToken', accessToken, { domain: '.neonav.net' });
+    const giveToken = router.query.givetoken || false;
+    const redirectparams = giveToken ? `?accesstoken=${accessToken}` : '';
+    const redirectUrl = `${router.query.redirect}${redirectparams}`;
+    const redirect = router.query.redirect ? redirectUrl : '/logout';
+    router.push(redirect); 
   }
 
   const onError = (err:any) => {
@@ -104,6 +136,7 @@ export default function LoginForm(props:LoginFormProps):JSX.Element {
       className={styles.inputs}
     >
       {children}
+      <ChipBox chips={chips} />
       <TextfieldBox
         required
         label="ID or Email"
@@ -127,6 +160,7 @@ export default function LoginForm(props:LoginFormProps):JSX.Element {
         handleClick={handleSubmit}
         value="Engage"
         disabled={disableCheck()}
+        icon={<RocketLaunchIcon sx={{ mr: 1 }} />}
       />
       <Stack sx={{ width:'80%', margin: "0 10%", color:'#7a04eb' }} spacing={2}>
         {loading && <LinearProgress color="inherit" />}

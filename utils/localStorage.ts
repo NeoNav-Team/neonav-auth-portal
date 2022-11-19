@@ -15,12 +15,16 @@ const localStorage = (method:string, key:string, value?:string):string => {
     return payload ? payload : '';
  }
  const setStorage = (key:string, value:string) => {
-    window.localStorage.setItem(key, JSON.stringify(value));
+    isBrowser && window.localStorage.setItem(key, JSON.stringify(value));
     return '';
  }
  const clearStorage = (key:string) => {
-    window.localStorage.setItem(key, '');
+    isBrowser && window.localStorage.setItem(key, '');
  };
+ const storageExists = (key:string) => {
+    const storage = getStorage(key);
+    return storage !== '';
+ }
 
     switch (method) {
         case 'set':
@@ -29,6 +33,8 @@ const localStorage = (method:string, key:string, value?:string):string => {
         case 'get':
             getStorage(key);
         break;
+        case 'check':
+            storageExists(key);
         case 'clear':
             clearStorage(key);
         break;

@@ -1,8 +1,5 @@
 import styles from '../styles/Form.module.css'
 import Button from '@mui/material/Button';
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
-import SaveIcon from '@mui/icons-material/Save';
-import CircularProgress from '@mui/material/CircularProgress';
 
 interface LoginFormProps {
   children?: React.ReactNode;
@@ -10,10 +7,11 @@ interface LoginFormProps {
   value?: String;
   disabled?: boolean;
   handleClick?: any;
+  icon?: JSX.Element;
 }
 
 export default function SubmitBox(props:LoginFormProps):JSX.Element {
-  const { children, value, handleClick, disabled } = props;
+  const { children, value, handleClick, disabled, icon } = props;
   return (
     <div 
         className={styles.submitContainer}
@@ -33,7 +31,7 @@ export default function SubmitBox(props:LoginFormProps):JSX.Element {
                 }}
                 size="large"
             >
-            <RocketLaunchIcon sx={{ mr: 1 }} />
+            {icon}
             {value}
             {children}
         </Button>
