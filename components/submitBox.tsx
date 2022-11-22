@@ -23,9 +23,10 @@ export default function SubmitBox(props:LoginFormProps):JSX.Element {
                 disableElevation
                 disabled={disabled}
                 style={{
-                    width: "100%",
+                    minWidth: "100%",
+                    lineHeight: "4vh",
                     backgroundColor: "#41c5ff",
-                    fontFamily: `"Orbitron", sans-serif`,
+                    fontFamily: `"Jura", sans-serif`,
                     fontWeight: 700,
                     letterSpacing: "0.5em"
                 }}
