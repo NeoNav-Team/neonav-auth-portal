@@ -1,6 +1,6 @@
 export const apiUrl = {
     protocol: 'https',
-    hostname: 'api.neonav.net',
+    hostname: 'devapi.neonav.net',
     port: ''
 };
 
