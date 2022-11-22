@@ -11,6 +11,7 @@ import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import ChipBox from '../chipBox';
+import axios from 'axios';
 
 
 interface LoginFormProps {
@@ -88,16 +89,15 @@ export default function LoginForm(props:LoginFormProps):JSX.Element {
     }
   }
 
-  const onSuccess = (response:LoginResponse) => {
-    setLoading(false);
+  const onSuccess = async (response:LoginResponse) => {
     setSubmitError('');
     const accessToken = response.data.accessToken;
     Cookies.set('accessToken', accessToken, { domain: '.neonav.net' });
-    const giveToken = router.query.givetoken || false;
-    const redirectparams = giveToken ? `?accesstoken=${accessToken}` : '';
-    const redirectUrl = `${router.query.redirect}${redirectparams}`;
+    const redirectUrl = `${router.query.redirect}`;
     const redirect = router.query.redirect ? redirectUrl : '/logout';
-    router.push(redirect); 
+
+    setLoading(false);
+    // router.push(redirect); 
   }
 
   const onError = (err:any) => {
