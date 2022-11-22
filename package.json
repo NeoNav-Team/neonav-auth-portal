@@ -6,6 +6,7 @@
     "dev": "node server/development-index.js",
     "build": "next build",
     "start": "next start",
+    "deploy": "pm2 start npm --name neonav-auth-portal -- run start -- -p 3000",
     "lint": "next lint"
   },
   "dependencies": {
