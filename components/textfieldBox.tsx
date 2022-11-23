@@ -13,6 +13,7 @@ interface LoginFormProps {
   handleChange?: any;
   handleBlur?: any;
   type?: string;
+  autocompleteClasses?: string;
 }
 
 const StyledTextField = styled(TextField)({
@@ -58,7 +59,7 @@ const StyledTextField = styled(TextField)({
 
 
 export default function TextfieldBox(props:LoginFormProps):JSX.Element {
-  const { label, name, value, required, error, handleBlur, handleChange, helperText, type } = props;
+  const { autocompleteClasses, label, name, value, required, error, handleBlur, handleChange, helperText, type } = props;
 
   return (
     <div className={styles.inputContainer}
@@ -70,7 +71,7 @@ export default function TextfieldBox(props:LoginFormProps):JSX.Element {
           type={type}
           style={{width: "100%"}}
           inputProps={{ 
-            input: { color: 'red' }
+            autoComplete: autocompleteClasses
           }}
           label={label}
           variant="standard"

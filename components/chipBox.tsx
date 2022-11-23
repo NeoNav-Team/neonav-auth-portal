@@ -37,10 +37,11 @@ export default function ChipBox(props:ChipProps):JSX.Element {
       {chips && chips.map((data) => {
 
         return (
-          <ListItem key={data.key}>
+          <ListItem key={`listItem_${data.key}`}>
             <Chip
               icon={<KeyboardArrowRightIcon style={{fill:'#ff00a0'}} />}
               style={{color: 'white'}}
+              key={`chip_${data.key}`}
               label={`${data.name} | ${data.value}`}
             />
           </ListItem>

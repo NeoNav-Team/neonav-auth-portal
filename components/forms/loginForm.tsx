@@ -93,11 +93,27 @@ export default function LoginForm(props:LoginFormProps):JSX.Element {
     setSubmitError('');
     const accessToken = response.data.accessToken;
     Cookies.set('accessToken', accessToken, { domain: '.neonav.net' });
+    const postUrl = `${router.query.post}`;
+    if (postUrl) {
+      try {
+        let bodyFormData = new FormData();
+        bodyFormData.append('username', (payload as any).username);
+        const res = await axios.post(postUrl, bodyFormData, {
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${accessToken}` }
+        }).catch(err => {
+         console.log('err', err);
+      });
+        console.log(res);
+      } catch(err) {
+        console.log(err);
+      }
+    }
     const redirectUrl = `${router.query.redirect}`;
-    const redirect = router.query.redirect ? redirectUrl : '/logout';
+    const redirect = router.query.redirect ? redirectUrl : 'https://neonav.net';
 
     setLoading(false);
-    // router.push(redirect); 
+    router.push(redirect); 
   }
 
   const onError = (err:any) => {
@@ -145,6 +161,7 @@ export default function LoginForm(props:LoginFormProps):JSX.Element {
         helperText={errors?.username}
         handleChange={handleInput}
         handleBlur={handleBlur}
+        autocompleteClasses="username"
       />
       <TextfieldBox
         required
@@ -155,6 +172,7 @@ export default function LoginForm(props:LoginFormProps):JSX.Element {
         helperText={errors?.password}
         handleChange={handleInput}
         handleBlur={handleBlur}
+        autocompleteClasses="password"
       />
       <SubmitBox
         handleClick={handleSubmit}
