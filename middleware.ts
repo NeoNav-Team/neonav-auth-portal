@@ -6,7 +6,7 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
     const hasToken = request.cookies.has('accessToken');
     const url = request.nextUrl.clone();
-    if(!hasToken && url.pathname !== '/login') {
+    if(!hasToken && url.pathname === '/') {
       return NextResponse.redirect(new URL('/login', request.url))
     } else if (hasToken && (url.pathname === '/login' || url.pathname === '/')) {
       return NextResponse.redirect(new URL('/logout', request.url))
