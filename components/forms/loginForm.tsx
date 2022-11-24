@@ -56,16 +56,16 @@ export default function LoginForm(props:LoginFormProps):JSX.Element {
     username: yup.mixed().required("This is Required").test(
       'email-or-password',
       'Provide an email or id',
-      username =>  username && username.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/) || !isNaN(username)
+      value =>  value && value.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/) || !isNaN(value)
     ).test(
       'no-chars',
       'You forgot an email or id',
-      username =>  username && username.length >= 1
+      value =>  value && value.length >= 1
     ),
     password: yup.mixed().required("Password is Required").test(
       'no-chars',
       'You forgot a password',
-      username =>  username && username.length >= 1
+      value =>  value && value.length >= 1
     ),
   });
 

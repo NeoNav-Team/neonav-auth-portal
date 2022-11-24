@@ -1,13 +1,13 @@
 import PageContainer from '../components/pageContainer';
 import FormContainer from '../components/formContainer';
-import ForgotPasswordForm from '../components/forms/forgotPasswordForm';
+import ResetPasswordForm from '../components/forms/resetPasswordForm';
 
-export default function Forgot() {
+export default function Reset() {
 
   return (
     <PageContainer>
-        <FormContainer title="Forgot Password">
-          <ForgotPasswordForm />
+        <FormContainer title="Reset Password">
+          <ResetPasswordForm />
         </FormContainer>
     </PageContainer>
   )

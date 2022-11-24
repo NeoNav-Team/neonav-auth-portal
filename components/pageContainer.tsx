@@ -1,6 +1,6 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Page.module.css'
+import Head from 'next/head';
+import Image from 'next/image';
+import styles from '../styles/Page.module.css';
 
 interface PageContainerProps {
   title?: string;
@@ -17,7 +17,6 @@ export default function PageContainer(props:PageContainerProps):JSX.Element {
         <meta name="description" content="NeoNav Authentication Portal" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main className={styles.main}>
         <div className={styles.grid}>
           <div className={styles.logoContainer}>
