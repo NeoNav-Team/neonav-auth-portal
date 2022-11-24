@@ -34,7 +34,7 @@ export const authApiEnpoints = {
         method: "put",
         path: "/api/auth/users/"
     },
-    restPassword:  {
+    resetPassword:  {
         method: "post",
         path: "/api/auth/reset"
     },

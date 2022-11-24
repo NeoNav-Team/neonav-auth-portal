@@ -53,7 +53,8 @@ const StyledTextField = styled(TextField)({
   },
   "& p": {
     position: "absolute",
-    right: 0
+    right: 0,
+    color: "#fe75fe",
   },
 });
 

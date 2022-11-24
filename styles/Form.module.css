@@ -40,6 +40,17 @@
     letter-spacing: 0.25em;
 }
 
+.legaleeze {
+    color: #fff;
+    text-align: center;
+}
+
+.legaleeze span {
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--form-color-1);
+}
+
 .inputs {
     padding: 20px 10px 40px;
 }

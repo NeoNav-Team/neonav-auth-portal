@@ -11,20 +11,26 @@ interface netCheckResponseData {
 interface netCheckResponse {
     data: netCheckResponseData;
 }
+interface MenuContainerProps {
+  goBack?: boolean;
+}
 
 
-export default function MenuContainer():JSX.Element | null {
+export default function MenuContainer(props:MenuContainerProps):JSX.Element | null {
+  const { goBack } = props;
   const [dataLoc, setDataLoc] = useState('loading');
   const router = useRouter();
 
   useEffect(() => {
-    const onSuccess = (response:netCheckResponse) => {
-        setDataLoc(response.data.message );
-    };
-    const onError = (err:object) => {
-        console.log('error', err);
-    };
-    executeApi('netCheck', {}, onSuccess, onError);
+    if(!goBack) {
+      const onSuccess = (response:netCheckResponse) => {
+          setDataLoc(response.data.message );
+      };
+      const onError = (err:object) => {
+          console.log('error', err);
+      };
+      executeApi('netCheck', {}, onSuccess, onError);
+    }
   });
 
   const goToLocation = (location:string) => {
@@ -41,6 +47,7 @@ export default function MenuContainer():JSX.Element | null {
         <div className={styles.content}>
             <div className={styles.title}>
                 <ButtonGroup size="small" aria-label="small button group">
+                    {goBack && <Button className={styles.button} onClick={()=> goToLocation('/login')}>Return to Login</Button>}
                     {dataLoc === 'internet' && (
                         <>
                         <Button className={styles.button} onClick={()=> goToLocation('/register')}>Sign Up</Button>
