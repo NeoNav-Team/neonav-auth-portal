@@ -2,7 +2,8 @@ import styles from '../../styles/Form.module.css';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import * as yup from 'yup';
-import { Alert, LinearProgress, Stack } from '@mui/material';
+import Cookies from 'js-cookie';
+import { Alert, LinearProgress, Button, Stack } from '@mui/material';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import executeApi from '../../utils/executeApi';
 import TextfieldBox from '../textfieldBox';
@@ -39,17 +40,6 @@ export default function InviteForm(props:InviteFormProps):JSX.Element {
   const [ loading, setLoading ] = useState(false);
   const router = useRouter();
 
-  const getQueryChips = () => {
-    let queryChips = [];
-    for (const [key, value] of Object.entries(router.query)) {
-      const queryChip:object = {'name': key, 'value': value, 'id': queryChips.length};
-      queryChips.push(queryChip)
-    }
-    return queryChips;
-  }
-
-  const chips: any[] = getQueryChips();
-
   let payloadSchema = yup.object().shape({
     email: yup.string().required("This is Required").email(),
     password: yup.mixed().required("Password is Required").test(
@@ -85,8 +75,12 @@ export default function InviteForm(props:InviteFormProps):JSX.Element {
 
   const onSuccess = async (response:RegisterResponse) => {
     setSubmitError('');
-    setLoading(false);
     setSuccess(true);
+    const accessToken = response.data.accessToken;
+    Cookies.set('accessToken', accessToken, { domain: '.neonav.net' });
+    setLoading(false);
+    const redirectUrl = `${router.query.redirect}`;
+    router.query.redirect && router.push(redirectUrl); 
   }
 
   const onError = (err:any) => {
@@ -116,8 +110,9 @@ export default function InviteForm(props:InviteFormProps):JSX.Element {
 
   const handleSubmit = () => {
     setLoading(true);
+    console.log('payload',payload);
     payloadSchema.validate(payload).then(function(value) {
-      executeApi('signup', value, onSuccess, onError);
+      executeApi('invite', value, onSuccess, onError);
     }).catch(function (err) {
       setErrors({...errors, [err.path]: err.message});
       setLoading(false);
@@ -170,7 +165,15 @@ export default function InviteForm(props:InviteFormProps):JSX.Element {
       <Stack sx={{ width:'80%', margin: "0 10%", color:'#7a04eb' }} spacing={2}>
         {loading && <LinearProgress color="inherit" />}
         {submitError && submitError.length !== -1 && <Alert  severity="error">{submitError}</Alert>}
-        {success && <Alert severity="success">Please check your email to continue.</Alert>}
+        {success && 
+          <Alert severity="success" onClick={()=> goToLocation('https://neonav.net')}>
+            You&apos;re good to go kid!
+          <Button
+            size="small"
+            sx={{lineHeight: 1, margin:'0 10px'}}>
+              Login ⮕
+            </Button>
+        </Alert>}
       </Stack>
     </form>
     )}</>
