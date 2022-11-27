@@ -1,23 +1,19 @@
 import styles from '../../styles/Form.module.css';
-import SubmitBox from '../submitBox';
 import { useState } from 'react';
-import LinearProgress from '@mui/material/LinearProgress';
-import Stack from '@mui/material/Stack';
-import EjectIcon from '@mui/icons-material/Eject';
-import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
-
+import Cookies from 'js-cookie';
+import { LinearProgress, Stack } from '@mui/material';
+import EjectIcon from '@mui/icons-material/Eject';
+import SubmitBox from '../submitBox';
 
 interface LogoutFormProps {
   children?: React.ReactNode;
 }
 
-
 export default function LogoutForm(props:LogoutFormProps):JSX.Element {
   const { children } = props;
   const [ loading, setLoading ] = useState(false);
   const router = useRouter();
-
 
   const handleSubmit = () => {
     setLoading(true);

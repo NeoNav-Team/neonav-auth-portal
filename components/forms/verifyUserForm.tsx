@@ -1,25 +1,20 @@
 import styles from '../../styles/Form.module.css';
-import SubmitBox from '../submitBox';
 import { useState, useEffect } from 'react';
-import LinearProgress from '@mui/material/LinearProgress';
-import Stack from '@mui/material/Stack';
+import { useRouter } from 'next/router';
+import * as yup from 'yup';
+import Cookies from 'js-cookie';
+import { Alert, LinearProgress, Stack } from '@mui/material';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import executeApi from '../../utils/executeApi';
 import TextfieldBox from '../textfieldBox';
-import * as yup from 'yup';
-import Alert from '@mui/material/Alert';
-import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
-import { isGeneratorFunction } from 'util/types';
-
-
+import SubmitBox from '../submitBox';
 
 interface VerifyUserFormProps {
   children?: React.ReactNode;
 }
 
 interface VerifyUserResponse {
-  data: verifyUserResponseData;
+  data: VerifyUserResponseData;
 }
 
 interface Payload {
@@ -27,11 +22,10 @@ interface Payload {
     email?: string;
 }
 
-interface verifyUserResponseData {
+interface VerifyUserResponseData {
   accessToken: string; 
   message: string;
 }
-
 
 export default function VerifyUserForm(props:VerifyUserFormProps):JSX.Element {
   const { children } = props;

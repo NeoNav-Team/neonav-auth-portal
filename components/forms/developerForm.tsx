@@ -25,7 +25,7 @@ export default function DeveloperForm():JSX.Element {
   useEffect(() => {
     const accessToken =  Cookies.get('accessToken')|| '';
     setTokenData(accessToken);
-    executeApi('profile', {token: accessToken}, onSuccess, onError);
+    accessToken !== '' ? executeApi('profile', {token: accessToken}, onSuccess, onError) : setLoading(false);
   });
 
 

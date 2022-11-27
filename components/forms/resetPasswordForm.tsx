@@ -1,15 +1,12 @@
 import styles from '../../styles/Form.module.css';
-import SubmitBox from '../submitBox';
 import { useState, useEffect } from 'react';
-import LinearProgress from '@mui/material/LinearProgress';
-import Stack from '@mui/material/Stack';
+import { useRouter } from 'next/router';
+import * as yup from 'yup';
+import { Alert, LinearProgress, Stack } from '@mui/material';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import executeApi from '../../utils/executeApi';
 import TextfieldBox from '../textfieldBox';
-import * as yup from 'yup';
-import Alert from '@mui/material/Alert';
-import { useRouter } from 'next/router';
-
+import SubmitBox from '../submitBox';
 
 interface ResetPasswordFormProps {
   children?: React.ReactNode;
@@ -24,7 +21,6 @@ interface Payload {
     email?: string;
     password?: string;
 }
-
 
 export default function ResetPasswordForm(props:ResetPasswordFormProps):JSX.Element {
   const { children } = props;
