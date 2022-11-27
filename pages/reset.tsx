@@ -6,7 +6,7 @@ import MenuContainer from '../components/menuContainer';
 export default function Reset() {
 
   return (
-    <PageContainer>
+    <PageContainer title="Reset">
         <FormContainer title="Reset Password">
           <ResetPasswordForm />
         </FormContainer>

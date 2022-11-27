@@ -1,7 +1,8 @@
 import styles from '../../styles/Form.module.css';
 import TextfieldBox from '../textfieldBox';
+import TextBox from '../textBox';
 import SubmitBox from '../submitBox';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as yup from 'yup';
 import LinearProgress from '@mui/material/LinearProgress';
 import { Stack, Alert } from '@mui/material';
@@ -10,12 +11,13 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import { useRouter } from 'next/router';
 
 
-interface RegisterFormProps {
+interface InviteFormProps {
   children?: React.ReactNode;
 }
 
 interface Payload {
   email?: string;
+  invite?: string;
   password?: string;
 }
 
@@ -29,9 +31,10 @@ interface RegisterResponseData {
   userid: string;
 }
 
-export default function RegisterForm(props:RegisterFormProps):JSX.Element {
+export default function InviteForm(props:InviteFormProps):JSX.Element {
   const { children } = props;
   const [ payload, setPayload ] = useState({});
+  const [ paramsReady, setParamsReady ] = useState(false);
   const [ errors, setErrors ] = useState({} as Payload);
   const [success, setSuccess ] = useState(false);
   const [ submitError, setSubmitError ] = useState('');
@@ -123,11 +126,22 @@ export default function RegisterForm(props:RegisterFormProps):JSX.Element {
     });
   }
 
+  useEffect(() => {
+    if (router.isReady) {
+      setParamsReady(router.isReady);
+      const { id } = router.query;
+      let defaultPayload:Payload = { invite: `${id}` };
+      setPayload(defaultPayload);
+    }
+  }, [router.isReady, router.query]);
+
   return (
+    <>{ paramsReady && (
     <form 
       className={styles.inputs}
     >
       {children}
+      <TextBox>{router.query['id'] as string}</TextBox>
       <TextfieldBox
         required
         label="Email"
@@ -161,5 +175,6 @@ export default function RegisterForm(props:RegisterFormProps):JSX.Element {
         {success && <Alert severity="success">Please check your email to continue.</Alert>}
       </Stack>
     </form>
+    )}</>
   )
 }

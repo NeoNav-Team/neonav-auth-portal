@@ -71,6 +71,27 @@
     --aug-inlay-opacity: 0.25;
 }
 
+.textContainer {
+    margin: 20px;
+    padding: 5px 16px;
+    border-radius: 10px 0px;
+    line-height: 4vh;
+    font-size: 24px;
+    color: var(--form-color-3);
+    font-weight: 100;
+    letter-spacing: 0.25em;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.25);
+    filter: drop-shadow(rgb(122, 4, 235) 0px 0px 8px);
+    --aug-tr: 5px;
+    --aug-b-extend1: 20%;
+    --aug-border-all: 1px;
+    --aug-border-bg: radial-gradient(var(--form-color-0),  rgb(122, 4, 235);) 100% 100% / 100% 100%;
+    --aug-inlay-all: 4px;
+    --aug-inlay-bg: radial-gradient(ellipse at top, var(--form-color-3), transparent)  50% 50% / 100% 100%;
+    --aug-inlay-opacity: 0.25;
+}
+
 .submitContainer {
     margin: 20px 10vw;
     border-radius: 10px 0px;

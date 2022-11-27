@@ -1,15 +1,24 @@
 import axios from 'axios';
 import { apiUrl, authApiEnpoints } from '../utils/constants';
 
-const executeAPI = (endpoint:string, data:object, callback: any, errBack: any):Promise<any> => {
+const executeAPI = (endpoint:string, data:any, callback: any, errBack: any):Promise<any> => {
     const axiosDefaults:any = axios.defaults;
+    let headers = {};
+    if(data?.token) {
+        headers = {
+            'content-type': 'application/json',
+            'x-access-token': `${data?.token}`
+        };
+        delete data.token;
+    }
     axiosDefaults.port = apiUrl.port;
     const { path, method } = (authApiEnpoints as any)[endpoint];
     const url = `${apiUrl.protocol}://${apiUrl.hostname}${path}`;
     return axios({
         method,
         url,
-        data
+        data,
+        headers
     }).then(
         function (response) {
             callback && callback(response)

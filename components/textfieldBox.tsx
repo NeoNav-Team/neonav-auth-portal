@@ -1,6 +1,7 @@
 import styles from '../styles/Form.module.css';
 import TextField from '@mui/material/TextField';
 import { styled } from "@mui/material/styles";
+import { boolean } from 'yup';
 
 
 interface LoginFormProps {
@@ -15,6 +16,9 @@ interface LoginFormProps {
   required?: boolean;
   type?: string;
   value?: string;
+  rows?: number;
+  multiline?: boolean;
+  shrink?: boolean;
 }
 
 const StyledTextField = styled(TextField)({
@@ -69,8 +73,11 @@ export default function TextfieldBox(props:LoginFormProps):JSX.Element {
     handleChange,
     helperText,
     label,
+    multiline,
     name,
+    shrink,
     required,
+    rows,
     type,
     value
   } = props;
@@ -85,11 +92,14 @@ export default function TextfieldBox(props:LoginFormProps):JSX.Element {
           type={type}
           style={{width: "100%"}}
           inputProps={{ 
-            autoComplete: autocompleteClasses
+            autoComplete: autocompleteClasses,
+            shrink: shrink
           }}
           label={label}
           variant="standard"
           value={value}
+          multiline={multiline}
+          rows={rows}
           onChange={handleChange}
           onBlur={handleBlur}
           helperText={helperText}

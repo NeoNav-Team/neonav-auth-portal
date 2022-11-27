@@ -3,7 +3,7 @@ import FormContainer from '../components/formContainer';
 import VerifyForm from '../components/forms/verifyUserForm';
 import MenuContainer from '../components/menuContainer';
 
-export default function Vierfy() {
+export default function Verify() {
 
   return (
     <PageContainer title="Verify">

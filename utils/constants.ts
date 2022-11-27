@@ -41,5 +41,9 @@ export const authApiEnpoints = {
     netCheck: {
         method: "get",
         path: "/api/auth/netcheck"       
-    }
+    },
+    profile: {
+        method: "get",
+        path: "/api/user"       
+    },
 };
