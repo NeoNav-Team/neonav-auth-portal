@@ -31,13 +31,13 @@ export default function DeveloperForm():JSX.Element {
 
   return (
     <Box sx={{margin: '10px'}}>
-        <Paper style={{maxHeight: 100, overflow: 'auto'}}>
-           <p style={{whiteSpace: 'nowrap'}}>{tokenData}</p>
+        <Paper style={{maxHeight: 100, padding: '4px', overflow: 'auto'}}>
+           <p style={{whiteSpace: 'nowrap'}}>{tokenData || 'No Token Found.'}</p>
         </Paper>
           <Button 
             variant="contained"
             color="secondary"
-            sx={{width:'100%', marginBottom:'20px'}}
+            sx={{width:'100%', padding: '4px',  marginBottom:'20px'}}
             onClick={() => {copy(`${tokenData}`)}}
           >
               Copy
