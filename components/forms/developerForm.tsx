@@ -23,16 +23,18 @@ export default function DeveloperForm():JSX.Element {
   }
 
   useEffect(() => {
-    const accessToken =  Cookies.get('accessToken')|| '';
-    setTokenData(accessToken);
-    accessToken !== '' ? executeApi('profile', {token: accessToken}, onSuccess, onError) : setLoading(false);
-  }, [setTokenData]);
+    if (tokenData !== '') {
+      const accessToken =  Cookies.get('accessToken')|| '';
+      setTokenData(accessToken);
+      accessToken !== '' ? executeApi('profile', {token: accessToken}, onSuccess, onError) : setLoading(false);
+    }
+  }, [tokenData, setTokenData]);
 
 
   return (
     <Box sx={{margin: '10px'}}>
         <Paper style={{maxHeight: 100, padding: '4px', overflow: 'auto'}}>
-           <p style={{whiteSpace: 'nowrap'}}>{tokenData || 'No Token Found.'}</p>
+           <p style= {{whiteSpace: 'nowrap'}}>{tokenData || 'No Token Found.'}</p>
         </Paper>
           <Button 
             variant="contained"
