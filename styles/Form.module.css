@@ -110,3 +110,15 @@
     --aug-inlay-opacity: 0.25;
 }
 
+@media (max-width: 600px) {
+    .inputContainer {
+       margin: 16px 0;
+    }
+}
+
+@media (max-width: 400px) {
+    .form {
+        min-width: 100%;
+        overflow: auto;
+    }
+}
