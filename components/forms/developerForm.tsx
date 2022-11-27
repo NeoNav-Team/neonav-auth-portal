@@ -26,7 +26,7 @@ export default function DeveloperForm():JSX.Element {
     const accessToken =  Cookies.get('accessToken')|| '';
     setTokenData(accessToken);
     accessToken !== '' ? executeApi('profile', {token: accessToken}, onSuccess, onError) : setLoading(false);
-  });
+  }, [setTokenData]);
 
 
   return (
