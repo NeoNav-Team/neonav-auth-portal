@@ -9,7 +9,10 @@ interface PageContainerProps {
 
 export default function PageContainer(props:PageContainerProps):JSX.Element {
   const { children, title } = props;
-  const mixedTitle = `N E O N A V ${title && ` [[${title}]]`}`;
+  let mixedTitle = 'N E O N A V';
+  if (typeof title !== 'undefined') {
+    mixedTitle = mixedTitle + `  [ ${title} ]`;
+  }
   return (
     <div className={styles.container}>
       <Head>

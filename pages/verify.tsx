@@ -1,14 +1,14 @@
 import PageContainer from '../components/pageContainer';
 import FormContainer from '../components/formContainer';
-import ForgotPasswordForm from '../components/forms/forgotPasswordForm';
+import VerifyForm from '../components/forms/verifyUserForm';
 import MenuContainer from '../components/menuContainer';
 
-export default function Forgot() {
+export default function Vierfy() {
 
   return (
-    <PageContainer title="Forgot Password">
-        <FormContainer title="Forgot Password">
-          <ForgotPasswordForm />
+    <PageContainer title="Verify">
+        <FormContainer title="Verify Account">
+          <VerifyForm />
         </FormContainer>
         <MenuContainer goBack={true} />
     </PageContainer>

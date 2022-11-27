@@ -4,16 +4,17 @@ import { styled } from "@mui/material/styles";
 
 
 interface LoginFormProps {
-  label?: string;
-  name: string;
-  value?: string;
-  required?: boolean;
+  autocompleteClasses?: string;
+  defaultValue?: string;
   error?: boolean;
   helperText?: string;
   handleChange?: any;
   handleBlur?: any;
+  label?: string;
+  name: string;
+  required?: boolean;
   type?: string;
-  autocompleteClasses?: string;
+  value?: string;
 }
 
 const StyledTextField = styled(TextField)({
@@ -60,7 +61,19 @@ const StyledTextField = styled(TextField)({
 
 
 export default function TextfieldBox(props:LoginFormProps):JSX.Element {
-  const { autocompleteClasses, label, name, value, required, error, handleBlur, handleChange, helperText, type } = props;
+  const { 
+    autocompleteClasses,
+    error,
+    defaultValue,
+    handleBlur,
+    handleChange,
+    helperText,
+    label,
+    name,
+    required,
+    type,
+    value
+  } = props;
 
   return (
     <div className={styles.inputContainer}
@@ -80,6 +93,7 @@ export default function TextfieldBox(props:LoginFormProps):JSX.Element {
           onChange={handleChange}
           onBlur={handleBlur}
           helperText={helperText}
+          defaultValue={defaultValue}
         />
     </div>
   )

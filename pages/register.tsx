@@ -6,7 +6,7 @@ import MenuContainer from '../components/menuContainer';
 export default function Register() {
 
   return (
-    <PageContainer>
+    <PageContainer title="Register">
         <FormContainer title="Register">
           <RegisterForm />
         </FormContainer>

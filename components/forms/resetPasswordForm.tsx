@@ -1,6 +1,6 @@
 import styles from '../../styles/Form.module.css';
 import SubmitBox from '../submitBox';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LinearProgress from '@mui/material/LinearProgress';
 import Stack from '@mui/material/Stack';
 import LockResetIcon from '@mui/icons-material/LockReset';
@@ -8,6 +8,7 @@ import executeApi from '../../utils/executeApi';
 import TextfieldBox from '../textfieldBox';
 import * as yup from 'yup';
 import Alert from '@mui/material/Alert';
+import { useRouter } from 'next/router';
 
 
 interface ResetPasswordFormProps {
@@ -27,7 +28,9 @@ interface Payload {
 
 export default function ResetPasswordForm(props:ResetPasswordFormProps):JSX.Element {
   const { children } = props;
+  const router = useRouter();
   const [ payload, setPayload ] = useState({});
+  const [ paramsReady, setParamsReady ] = useState(false);
   const [ errors, setErrors ] = useState({} as Payload);
   const [success, setSuccess ] = useState(false);
   const [ submitError, setSubmitError ] = useState('');
@@ -50,7 +53,7 @@ export default function ResetPasswordForm(props:ResetPasswordFormProps):JSX.Elem
     const anyErrors = () => {
       let hasErrors = false;
       for (const [key, value] of Object.entries(errors)) {
-        if (value && value.length !== -1){
+        if (value && value !== ''){
           hasErrors = true;
         }
       }
@@ -81,7 +84,7 @@ export default function ResetPasswordForm(props:ResetPasswordFormProps):JSX.Elem
   const handleSubmit = () => {
     setLoading(true);
     payloadSchema.validate(payload).then(function(value) {
-      executeApi('restPassword', value, onSuccess, onError);
+      executeApi('verifyEmail', value, onSuccess, onError);
     }).catch(function (err) {
       setErrors({...errors, [err.path]: err.message});
       setLoading(false);
@@ -100,8 +103,17 @@ export default function ResetPasswordForm(props:ResetPasswordFormProps):JSX.Elem
     setSuccess(true);
     setLoading(false);
   }
+  useEffect(() => {
+    if (router.isReady) {
+      setParamsReady(router.isReady);
+      const { code, email } = router.query;
+      let defaultPayload:Payload = { code: `${code}`, email: `${email}`};
+      setPayload(defaultPayload);
+    }
+  }, [router.isReady, router.query]);
 
   return (
+    <>{ paramsReady && (
     <form 
       className={styles.inputs}
     >
@@ -115,18 +127,9 @@ export default function ResetPasswordForm(props:ResetPasswordFormProps):JSX.Elem
         handleChange={handleInput}
         handleBlur={handleBlur}
         autocompleteClasses="code"
+        defaultValue={router.query['code'] as string}
       />
-        <TextfieldBox
-        required
-        label="password"
-        name="password"
-        error={errorCheck(errors?.password)}
-        helperText={errors?.password}
-        handleChange={handleInput}
-        handleBlur={handleBlur}
-        autocompleteClasses="password"
-      />
-        <TextfieldBox
+      <TextfieldBox
         required
         label="email"
         name="email"
@@ -135,6 +138,17 @@ export default function ResetPasswordForm(props:ResetPasswordFormProps):JSX.Elem
         handleChange={handleInput}
         handleBlur={handleBlur}
         autocompleteClasses="email"
+        defaultValue={router.query['email'] as string}
+      />
+        <TextfieldBox
+        required
+        label="password"
+        name="password"
+        error={errorCheck(errors?.password)}
+        helperText={'Provide a New Password' || errors?.password}
+        handleChange={handleInput}
+        handleBlur={handleBlur}
+        autocompleteClasses="password"
       />
       <SubmitBox
         handleClick={handleSubmit}
@@ -148,5 +162,6 @@ export default function ResetPasswordForm(props:ResetPasswordFormProps):JSX.Elem
         {success && <Alert severity="success">Password has been reset.</Alert>}
       </Stack>
     </form>
+    )}</>
   )
 }

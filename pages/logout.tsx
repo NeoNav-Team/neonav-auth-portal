@@ -4,7 +4,7 @@ import LogoutForm from '../components/forms/logoutForm'
 
 export default function Logout() {
   return (
-    <PageContainer>
+    <PageContainer title="Logout">
         <FormContainer title="Logout">
             <LogoutForm />
         </FormContainer>

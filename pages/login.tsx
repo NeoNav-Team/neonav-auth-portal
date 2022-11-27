@@ -6,7 +6,7 @@ import LoginForm from '../components/forms/loginForm';
 export default function Login() {
 
   return (
-    <PageContainer>
+    <PageContainer title="Login">
         <FormContainer title="Login">
           <LoginForm />
         </FormContainer>
