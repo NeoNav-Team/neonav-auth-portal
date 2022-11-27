@@ -42,6 +42,7 @@
   }
   .grid img {
     height: 20vh;
+    width: auto;
   }
 }
 
