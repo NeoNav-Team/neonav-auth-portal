@@ -113,7 +113,7 @@ export default function ForgotPasswordForm(props:ForgotPasswordFormProps):JSX.El
       <Stack sx={{ width:'80%', margin: "0 10%", color:'#7a04eb' }} spacing={2}>
         {loading && <LinearProgress color="inherit" />}
         {submitError && submitError.length !== -1 && <Alert  severity="error">{submitError}</Alert>}
-        {success && <Alert severity="success">Password reset as been emailed.</Alert>}
+        {success && <Alert severity="success">Password reset has been emailed.</Alert>}
       </Stack>
     </form>
   )

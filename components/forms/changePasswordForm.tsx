@@ -8,7 +8,7 @@ import executeApi from '../../utils/executeApi';
 import TextfieldBox from '../textfieldBox';
 import SubmitBox from '../submitBox';
 
-interface ResetPasswordFormProps {
+interface ChangePasswordFormProps {
   children?: React.ReactNode;
 }
 
@@ -22,7 +22,7 @@ interface Payload {
     password?: string;
 }
 
-export default function ResetPasswordForm(props:ResetPasswordFormProps):JSX.Element {
+export default function ChangePasswordForm(props:ChangePasswordFormProps):JSX.Element {
   const { children } = props;
   const router = useRouter();
   const [ payload, setPayload ] = useState({});
@@ -33,13 +33,16 @@ export default function ResetPasswordForm(props:ResetPasswordFormProps):JSX.Elem
   const [ loading, setLoading ] = useState(false);
 
   let payloadSchema = yup.object().shape({
-    code: yup.number().required("This is Required"),
     password: yup.mixed().required("Password is Required").test(
       'no-chars',
       'You forgot a password',
       value =>  value && value.length >= 1
     ),
-    email: yup.string().required("This is Required").email(),
+    newPassword: yup.mixed().required("New Password is Required").test(
+      'no-chars',
+      'You forgot a new password',
+      value =>  value && value.length >= 1
+    ),
   });
 
   const errorCheck = (error: any) => {
@@ -80,7 +83,7 @@ export default function ResetPasswordForm(props:ResetPasswordFormProps):JSX.Elem
   const handleSubmit = () => {
     setLoading(true);
     payloadSchema.validate(payload).then(function(value) {
-      executeApi('verifyEmail', value, onSuccess, onError);
+      executeApi('changePassword', value, onSuccess, onError);
     }).catch(function (err) {
       setErrors({...errors, [err.path]: err.message});
       setLoading(false);
@@ -114,34 +117,23 @@ export default function ResetPasswordForm(props:ResetPasswordFormProps):JSX.Elem
       className={styles.inputs}
     >
       {children}
-      <TextfieldBox
-        required
-        label="code"
-        name="code"
-        error={errorCheck(errors?.code)}
-        helperText={errors?.code}
-        handleChange={handleInput}
-        handleBlur={handleBlur}
-        autocompleteClasses="code"
-        defaultValue={router.query['code'] as string}
-      />
-      <TextfieldBox
-        required
-        label="email"
-        name="email"
-        error={errorCheck(errors?.email)}
-        helperText={errors?.email}
-        handleChange={handleInput}
-        handleBlur={handleBlur}
-        autocompleteClasses="email"
-        defaultValue={router.query['email'] as string}
-      />
         <TextfieldBox
         required
-        label="password"
-        name="password"
+        label="old password"
+        name="oldPassword"
         error={errorCheck(errors?.password)}
-        helperText={'Provide a New Password' || errors?.password}
+        helperText={'Provide Old Password' || errors?.password}
+        handleChange={handleInput}
+        handleBlur={handleBlur}
+        autocompleteClasses="password"
+        type="password"
+      />
+       <TextfieldBox
+        required
+        label="new password"
+        name="newPassword"
+        error={errorCheck(errors?.password)}
+        helperText={'Provide New Password' || errors?.password}
         handleChange={handleInput}
         handleBlur={handleBlur}
         autocompleteClasses="password"
@@ -149,14 +141,14 @@ export default function ResetPasswordForm(props:ResetPasswordFormProps):JSX.Elem
       />
       <SubmitBox
         handleClick={handleSubmit}
-        value="Reset"
+        value="Update"
         disabled={disableCheck()}
         icon={<LockResetIcon sx={{ mr: 1 }} />}
       />
       <Stack sx={{ width:'80%', margin: "0 10%", color:'#7a04eb' }} spacing={2}>
         {loading && <LinearProgress color="inherit" />}
         {submitError && submitError.length !== -1 && <Alert  severity="error">{submitError}</Alert>}
-        {success && <Alert severity="success">Password has been reset.</Alert>}
+        {success && <Alert severity="success">Password has been changed.</Alert>}
       </Stack>
     </form>
     )}</>
