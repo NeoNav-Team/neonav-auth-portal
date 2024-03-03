@@ -30,9 +30,9 @@ export const authApiEnpoints = {
         method: "patch",
         path: "/api/auth/user"
     },
-    newPassword: {
+    changePassword: {
         method: "put",
-        path: "/api/auth/users/"
+        path: "/api/auth/users/$dbid"
     },
     resetPassword:  {
         method: "post",

@@ -121,4 +121,7 @@
         min-width: 100%;
         overflow: auto;
     }
+    .title h2 {
+        font-size: 20px;
+    }
 }
