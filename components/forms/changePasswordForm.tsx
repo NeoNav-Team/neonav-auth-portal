@@ -1,7 +1,7 @@
 import styles from '../../styles/Form.module.css';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import * as yup from 'yup';
+import Cookies from 'js-cookie';
 import { Alert, LinearProgress, Stack } from '@mui/material';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import executeApi from '../../utils/executeApi';
@@ -12,37 +12,49 @@ interface ChangePasswordFormProps {
   children?: React.ReactNode;
 }
 
-interface ResetPasswordResponse {
+interface ChangePasswordResponse {
   data: object;
 }
 
+export type LooseObject = {
+  [key: string]: any
+}
+
+
 interface Payload {
-    code?: string;
-    email?: string;
-    password?: string;
+    oldpass?: string;
+    newpass1?: string;
+    newpass2?: string;
+    user?: string;
 }
 
 export default function ChangePasswordForm(props:ChangePasswordFormProps):JSX.Element {
   const { children } = props;
-  const router = useRouter();
-  const [ payload, setPayload ] = useState({});
-  const [ paramsReady, setParamsReady ] = useState(false);
+  const [tokenData, setTokenData ] = useState('');
+  const [profileData, setProfileData ] = useState({} as LooseObject);
+  const [ payload, setPayload ] = useState({} as Payload);
   const [ errors, setErrors ] = useState({} as Payload);
   const [success, setSuccess ] = useState(false);
   const [ submitError, setSubmitError ] = useState('');
   const [ loading, setLoading ] = useState(false);
+  const userId = profileData?.auth?.userid || ''; 
 
   let payloadSchema = yup.object().shape({
-    password: yup.mixed().required("Password is Required").test(
+    oldpass: yup.mixed().required("Password is Required").test(
       'no-chars',
       'You forgot a password',
       value =>  value && value.length >= 1
     ),
-    newPassword: yup.mixed().required("New Password is Required").test(
+    newpass1: yup.mixed().required("New Password is Required").test(
       'no-chars',
       'You forgot a new password',
       value =>  value && value.length >= 1
     ),
+    newpass2: yup.mixed().required("Repeat the new Password").test(
+      'no-chars',
+      'A new password is needed twice',
+      value =>  value && value.length >= 1
+    ).oneOf([yup.ref("newpass1")], "Passwords does not match"),
   });
 
   const errorCheck = (error: any) => {
@@ -83,7 +95,7 @@ export default function ChangePasswordForm(props:ChangePasswordFormProps):JSX.El
   const handleSubmit = () => {
     setLoading(true);
     payloadSchema.validate(payload).then(function(value) {
-      executeApi('changePassword', value, onSuccess, onError);
+      executeApi('changePassword', {token: tokenData, dbid: userId, ...value}, onSuccess, onError);
     }).catch(function (err) {
       setErrors({...errors, [err.path]: err.message});
       setLoading(false);
@@ -97,22 +109,32 @@ export default function ChangePasswordForm(props:ChangePasswordFormProps):JSX.El
     setSubmitError(errMsg);
   }
 
-  const onSuccess = async (response:ResetPasswordResponse) => {
+  const onSuccess = async (response:ChangePasswordResponse) => {
+    console.log(response);
     setSubmitError('');
     setSuccess(true);
     setLoading(false);
   }
+
+  const onProfileSuccess = (response:any) => {
+    setLoading(false);
+    console.log(JSON.stringify(response))
+    setProfileData(response.data);
+  }
+  const onProfileError = (err:any) => {
+    setLoading(false);
+    console.log(JSON.stringify(err))
+  }
+
   useEffect(() => {
-    if (router.isReady) {
-      setParamsReady(router.isReady);
-      const { code, email } = router.query;
-      let defaultPayload:Payload = { code: `${code}`, email: `${email}`};
-      setPayload(defaultPayload);
+    if (tokenData === '') {
+      const accessToken =  Cookies.get('accessToken')|| '';
+      setTokenData(accessToken);
+      accessToken !== '' ? executeApi('profile', {token: accessToken}, onProfileSuccess, onProfileError) : setLoading(false);
     }
-  }, [router.isReady, router.query]);
+  }, [tokenData, setTokenData]);
 
   return (
-    <>{ paramsReady && (
     <form 
       className={styles.inputs}
     >
@@ -120,9 +142,9 @@ export default function ChangePasswordForm(props:ChangePasswordFormProps):JSX.El
         <TextfieldBox
         required
         label="old password"
-        name="oldPassword"
-        error={errorCheck(errors?.password)}
-        helperText={'Provide Old Password' || errors?.password}
+        name="oldpass"
+        error={errorCheck(errors?.oldpass)}
+        helperText={'Provide Old Password' || errors?.oldpass}
         handleChange={handleInput}
         handleBlur={handleBlur}
         autocompleteClasses="password"
@@ -131,9 +153,20 @@ export default function ChangePasswordForm(props:ChangePasswordFormProps):JSX.El
        <TextfieldBox
         required
         label="new password"
-        name="newPassword"
-        error={errorCheck(errors?.password)}
-        helperText={'Provide New Password' || errors?.password}
+        name="newpass1"
+        error={errorCheck(errors?.newpass1)}
+        helperText={'Provide New Password' || errors?.newpass1}
+        handleChange={handleInput}
+        handleBlur={handleBlur}
+        autocompleteClasses="password"
+        type="password"
+      />
+             <TextfieldBox
+        required
+        label="new password"
+        name="newpass2"
+        error={errorCheck(errors?.newpass2)}
+        helperText={'Repeat New Password' || errors?.newpass2}
         handleChange={handleInput}
         handleBlur={handleBlur}
         autocompleteClasses="password"
@@ -150,7 +183,7 @@ export default function ChangePasswordForm(props:ChangePasswordFormProps):JSX.El
         {submitError && submitError.length !== -1 && <Alert  severity="error">{submitError}</Alert>}
         {success && <Alert severity="success">Password has been changed.</Alert>}
       </Stack>
+      {children}
     </form>
-    )}</>
   )
 }

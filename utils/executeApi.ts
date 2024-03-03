@@ -4,6 +4,7 @@ import { apiUrl, authApiEnpoints } from '../utils/constants';
 const executeAPI = (endpoint:string, data:any, callback: any, errBack: any):Promise<any> => {
     const axiosDefaults:any = axios.defaults;
     let headers = {};
+    console.log('executeAPI data', data);
     if(data?.token) {
         headers = {
             'content-type': 'application/json',
@@ -13,7 +14,13 @@ const executeAPI = (endpoint:string, data:any, callback: any, errBack: any):Prom
     }
     axiosDefaults.port = apiUrl.port;
     const { path, method } = (authApiEnpoints as any)[endpoint];
-    const url = `${apiUrl.protocol}://${apiUrl.hostname}${path}`;
+    let templatedPath = path;
+    data && Object.keys(data).forEach((key:string) => {
+      const inTemplate = templatedPath.indexOf(`$${key}`) !== -1;
+      templatedPath = templatedPath.replace(`$${key}`, data[key])
+      inTemplate && delete data[key];
+    });
+    const url = `${apiUrl.protocol}://${apiUrl.hostname}${templatedPath}`;
     return axios({
         method,
         url,
