@@ -40,8 +40,6 @@ export default function LoginForm(props:LoginFormProps):JSX.Element {
   const [ loading, setLoading ] = useState(false);
   const router = useRouter();
 
-  console.log('CALLBACK_DOMAIN', CALLBACK_DOMAIN);
-
   const getQueryChips = () => {
     let queryChips = [];
     for (const [key, value] of Object.entries(router.query)) {
