@@ -15,6 +15,7 @@ NODE_ENV="development"
 CERT_PATH="local.neonav.net"
 LOCAL_DOMAIN="local.neonav.net"
 API_DOMAIN="devapi.neonav.net"
+NEXT_PUBLIC_CALLBACK_DOMAIN="https://beta.neonav.net"
 ```
 
 Lastly, run `npm run dev` which will run a development server using these certificates at `https://local.neonav.net:3000`

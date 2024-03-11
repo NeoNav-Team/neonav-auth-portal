@@ -30,6 +30,8 @@ interface LoginResponseData {
   userid: string;
 }
 
+const CALLBACK_DOMAIN = process.env.NEXT_PUBLIC_CALLBACK_DOMAIN;
+
 export default function LoginForm(props:LoginFormProps):JSX.Element {
   const { children } = props;
   const [ payload, setPayload ] = useState({});
@@ -37,6 +39,8 @@ export default function LoginForm(props:LoginFormProps):JSX.Element {
   const [ submitError, setSubmitError ] = useState('');
   const [ loading, setLoading ] = useState(false);
   const router = useRouter();
+
+  console.log('CALLBACK_DOMAIN', CALLBACK_DOMAIN);
 
   const getQueryChips = () => {
     let queryChips = [];
@@ -106,8 +110,14 @@ export default function LoginForm(props:LoginFormProps):JSX.Element {
         console.log(err);
       }
     }
-    const redirectUrl = `${router.query.redirect}`;
-    const redirect = router.query.redirect ? redirectUrl : 'https://neonav.net';
+    let redirect = 'https://neonav.net';
+    if(CALLBACK_DOMAIN) {
+      redirect = CALLBACK_DOMAIN;
+    }
+    if (router.query.redirect) {
+      const redirectUrl = `${router.query.redirect}`;
+      redirect = redirectUrl;
+    }
 
     setLoading(false);
     router.push(redirect); 
