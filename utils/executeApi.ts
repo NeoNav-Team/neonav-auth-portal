@@ -4,7 +4,6 @@ import { apiUrl, authApiEnpoints } from '../utils/constants';
 const executeAPI = (endpoint:string, data:any, callback: any, errBack: any):Promise<any> => {
     const axiosDefaults:any = axios.defaults;
     let headers = {};
-    console.log('executeAPI data', data);
     if(data?.token) {
         headers = {
             'content-type': 'application/json',
@@ -21,6 +20,7 @@ const executeAPI = (endpoint:string, data:any, callback: any, errBack: any):Prom
       inTemplate && delete data[key];
     });
     const url = `${apiUrl.protocol}://${apiUrl.hostname}${templatedPath}`;
+    console.log('data for axios', data);
     return axios({
         method,
         url,

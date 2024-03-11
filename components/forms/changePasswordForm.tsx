@@ -95,7 +95,14 @@ export default function ChangePasswordForm(props:ChangePasswordFormProps):JSX.El
   const handleSubmit = () => {
     setLoading(true);
     payloadSchema.validate(payload).then(function(value) {
-      executeApi('changePassword', {token: tokenData, dbid: userId, ...value}, onSuccess, onError);
+
+      executeApi('changePassword', {
+        token: tokenData,
+        userid: userId,
+        'oldpass': value.oldpass,
+        'newpass1': value.newpass1,
+        'newpass2': value.newpass2,
+      }, onSuccess, onError);
     }).catch(function (err) {
       setErrors({...errors, [err.path]: err.message});
       setLoading(false);
@@ -118,7 +125,6 @@ export default function ChangePasswordForm(props:ChangePasswordFormProps):JSX.El
 
   const onProfileSuccess = (response:any) => {
     setLoading(false);
-    console.log(JSON.stringify(response))
     setProfileData(response.data);
   }
   const onProfileError = (err:any) => {
