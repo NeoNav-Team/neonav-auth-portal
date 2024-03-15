@@ -80,7 +80,7 @@ export default function ResetPasswordForm(props:ResetPasswordFormProps):JSX.Elem
   const handleSubmit = () => {
     setLoading(true);
     payloadSchema.validate(payload).then(function(value) {
-      executeApi('verifyEmail', value, onSuccess, onError);
+      executeApi('resetPassword', value, onSuccess, onError);
     }).catch(function (err) {
       setErrors({...errors, [err.path]: err.message});
       setLoading(false);
