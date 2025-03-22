@@ -46,4 +46,16 @@ export const authApiEnpoints = {
         method: "get",
         path: "/api/user"       
     },
+    apikeys: {
+        method: "get",
+        path: "/api/auth/apikey/list"
+    },
+    deleteApiKey: {
+        method: "delete",
+        path: "/api/auth/apikey"
+    },
+    newApiKey: {
+        method: "get",
+        path: "/api/auth/apikey"
+    }
 };
