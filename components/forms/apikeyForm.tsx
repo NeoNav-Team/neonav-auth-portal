@@ -2,8 +2,9 @@ import styles from '../../styles/Form.module.css';
 import { useState, useEffect } from 'react';
 import copy from 'copy-to-clipboard';
 import Cookies from 'js-cookie';
-import { CircularProgress, Button, Paper, Box, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton } from '@mui/material';
+import { CircularProgress, Button, Paper, Box, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Tooltip } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import executeApi from '../../utils/executeApi';
 import JSONPretty from 'react-json-pretty';
 
@@ -29,6 +30,11 @@ export default function DeveloperForm(): JSX.Element {
       setApiData(apiData.filter(item => item.key !== key));
       setLoading(false);
     }, onError);
+  };
+
+  const handleCopy = (key: string) => {
+    copy(key);
+    alert('API Key copied to clipboard!');
   };
 
   const handleNewApiKey = () => {
@@ -62,9 +68,16 @@ export default function DeveloperForm(): JSX.Element {
               <ListItem key={item.key}>
                 <ListItemText primary={item.ts} secondary={`${item.behalf} (${item.behalfname})`} />
                 <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(item.key)}>
-                    <DeleteIcon />
-                  </IconButton>
+                  <Tooltip title="Copy Key">
+                    <IconButton edge="end" aria-label="copy" onClick={() => handleCopy(item.key)}>
+                      <ContentCopyIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Delete Key">
+                    <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(item.key)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
                 </ListItemSecondaryAction>
               </ListItem>
             ))}
