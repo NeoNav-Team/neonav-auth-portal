@@ -91,7 +91,7 @@ export default function LoginForm(props:LoginFormProps):JSX.Element {
   const onSuccess = async (response:LoginResponse) => {
     setSubmitError('');
     const accessToken = response.data.accessToken;
-    Cookies.set('accessToken', accessToken, { domain: '.neonav.net' });
+    Cookies.set('accessToken', accessToken, { domain: '.neonav.net', expires: 30 });
     const postUrl = `${router.query.post}`;
     if (postUrl) {
       try {
