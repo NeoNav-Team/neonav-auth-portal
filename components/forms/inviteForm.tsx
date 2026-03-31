@@ -77,7 +77,7 @@ export default function InviteForm(props:InviteFormProps):JSX.Element {
     setSubmitError('');
     setSuccess(true);
     const accessToken = response.data.accessToken;
-    Cookies.set('accessToken', accessToken, { domain: '.neonav.net' });
+    Cookies.set('accessToken', accessToken, { domain: '.neonav.net', expires: 30 });
     setLoading(false);
     const redirectUrl = `${router.query.redirect}`;
     router.query.redirect && router.push(redirectUrl); 
