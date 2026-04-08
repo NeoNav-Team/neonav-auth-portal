@@ -18,6 +18,7 @@ export default function LogoutForm(props:LogoutFormProps):JSX.Element {
   const handleSubmit = () => {
     setLoading(true);
     Cookies.remove('accessToken', { domain: '.neonav.net' });
+    indexedDB.deleteDatabase('neonav-chat');
     router.push('/login');
   }
 
