@@ -131,7 +131,7 @@ export default function RegisterForm(props:RegisterFormProps):JSX.Element {
         label="Email"
         name="email"
         error={errorCheck(errors?.email)}
-        helperText={errors?.email || "Email is not shared with third parties intentionally"}
+        helperText={errors?.email || "Email"}
         handleChange={handleInput}
         handleBlur={handleBlur}
         autocompleteClasses="email"
@@ -141,7 +141,7 @@ export default function RegisterForm(props:RegisterFormProps):JSX.Element {
         label="Password"
         name="password"
         error={errorCheck(errors?.password)}
-        helperText={errors?.password || "Requires 10 characters with numbers and symbols"}
+        helperText={errors?.password || "Min 10 characters"}
         handleChange={handleInput}
         handleBlur={handleBlur}
         autocompleteClasses="password"

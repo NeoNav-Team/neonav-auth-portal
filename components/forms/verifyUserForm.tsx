@@ -132,7 +132,7 @@ export default function VerifyUserForm(props:VerifyUserFormProps):JSX.Element {
         label="email"
         name="email"
         error={errorCheck(errors?.email)}
-        helperText={'Email is not shared with third parties intentionally' ||errors?.email}
+        helperText={errors?.email || "Email"}
         handleChange={handleInput}
         handleBlur={handleBlur}
         autocompleteClasses="email"
